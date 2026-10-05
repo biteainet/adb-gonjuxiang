@@ -1,0 +1,13 @@
+﻿[2026-10-01 20:22:35] 安装驱动：C:\Users\Administrator\Desktop\ADB工具箱\drivers\android_winusb.inf
+> pnputil /add-driver "C:\Users\Administrator\Desktop\ADB工具箱\drivers\android_winusb.inf" /install
+Microsoft PnP 工具
+
+正在添加驱动程序包:  android_winusb.inf
+已成功添加驱动程序包。(系统中已存在)
+发布名称:         oem14.inf
+驱动程序包已安装在设备上: USB\VID_18D1&PID_4EE7\5&2d41f132&1&6
+驱动程序包已安装在设备上: USB\VID_18D1&PID_D001\M7W8IVRC5DV8OB6S
+驱动程序包已安装在设备上: USB\VID_18D1&PID_4EE7\42199259769578
+
+驱动程序包总数:  1
+已添加驱动程序包数:  1
