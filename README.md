@@ -1,7 +1,6 @@
-# adb-gonjuxiang
-# Shizuku 一键解锁工具
+# 📱 ADB 工具箱 - Shizuku 一键解锁工具
 
-> 一个自带驱动的 Windows 一键工具，用于在手机上快速启用 Shizuku，无需繁琐的 ADB 手动配置。
+> 自带驱动的 Windows 成品工具。无需繁琐配置，双击 EXE 即可为手机快速启用 Shizuku。
 
 [![Platform](https://img.shields.io/badge/Platform-Windows-blue)]()
 [![Format](https://img.shields.io/badge/Format-EXE-green)]()
@@ -9,22 +8,30 @@
 
 ---
 
-## 📖 简介
+## 📖 项目简介
 
-**Shizuku 一键解锁工具** 是一款专为普通用户设计的桌面端成品工具。它将 **ADB 驱动、平台工具、Shizuku 启动脚本** 全部打包进单个 `.exe` 文件，双击即可运行，无需安装、无需配置环境变量、无需手动输入命令。
+**ADB 工具箱** 是一款专为普通用户打造的桌面端成品工具。它集成了 **ADB 驱动、平台工具以及 Shizuku 启动脚本**，打包成单个 `.exe` 文件。双击运行，无需安装、无需配置环境变量、无需手敲命令。
 
-无论你是想体验 Shizuku 的强大功能，还是厌倦了每次都要敲 `adb shell sh /storage/.../start.sh`，这个工具都能帮你**一键搞定**。
+无论你是想体验 Shizuku 的神奇功能，还是厌倦了每次都要用命令行输入长串路径，这个工具都能帮你**一键搞定**。
 
 ---
 
-## ✨ 特性
+## 📸 软件截图
+
+![ADB 工具箱截图](https://raw.githubusercontent.com/biteainet/adb-gonjuxiang/main/file.webp)
+
+> *界面简洁直观，已连接设备实时显示，日志清晰可见。*
+
+---
+
+## ✨ 核心特性
 
 - 🚀 **单文件 EXE**：无需安装，解压即用，绿色便携。
-- 🔌 **自带驱动**：内置 Google USB Driver 与通用 ADB 驱动，自动识别设备。
-- 🧩 **自动部署**：自动推送 Shizuku 启动脚本并执行。
-- 🖱️ **图形界面**：傻瓜式操作，点击按钮即可完成全部流程。
+- 🔌 **自带驱动**：内置通用 ADB 驱动，连接设备自动识别，无需手动安装。
+- 🧩 **自动部署**：一键推送 Shizuku 启动脚本并执行，自动杀死旧进程、启动服务。
+- 🖱️ **图形界面**：傻瓜式操作，顶部菜单支持「命令、应用、文件、驱动修复、炸鱼」等功能。
 - 🔄 **多设备支持**：兼容主流 Android 机型（Android 8.0+）。
-- 🛡️ **安全透明**：所有操作基于官方 ADB 协议，开源可查。
+- 🛡️ **安全透明**：基于官方 ADB 协议，完全离线运行，不收集任何数据。
 
 ---
 
@@ -32,26 +39,42 @@
 
 ### 第一步：手机准备
 
-1. 进入 **设置 → 关于手机**，连续点击「版本号」7 次，开启开发者模式。
+1. 进入 **设置 → 关于手机**，连续点击「版本号」7 次开启开发者模式。
 2. 进入 **开发者选项**，打开 **USB 调试**。
 3. 使用数据线连接电脑，手机弹出授权提示时选择 **允许**。
 
 ### 第二步：运行工具
 
-1. 下载并双击 `ShizukuOneClick.exe`。
-2. 等待程序自动检测设备（首次运行会自动安装驱动）。
-3. 点击 **「一键启动 Shizuku」** 按钮。
-4. 看到 `Shizuku started` 提示即代表成功。
+1. 双击 `ADB工具箱.exe` 启动。
+2. 等待工具自动检测设备（首次运行会自动安装驱动）。
+3. 在「命令」标签页的输入框中，确认或粘贴 Shizuku 启动命令：
 
-### 第三步：手机端确认
+   ```bash
+   adb shell /data/app/moe.shizuku.privileged.api-xxx==/lib/arm64/libshizuku.so
+   ```
 
-打开手机上的 **Shizuku** App，即可看到服务已运行，随后可授权其他应用使用。
+   *（工具已内置该路径，通常只需点击「执行」按钮）*
+
+### 第三步：确认成功
+
+看到日志出现以下输出即代表启动成功：
+
+```text
+info: starter begin
+info: killing old process...
+info: apk path is /data/app/moe.shizuku.privileged.api-xxx==/base.apk
+info: starting server...
+info: shizuku_server pid is 12299
+info: shizuku_starter exit with 0
+```
+
+随后打开手机上的 **Shizuku** App，即可看到服务已运行，并可授权其他应用使用。
 
 ---
 
 ## ⚙️ 工作原理
 
-```
+```text
 ┌─────────────┐      ADB       ┌──────────────┐
 │  Windows PC │ ─────────────► │ Android 设备 │
 │  (本工具)    │  推送启动脚本   │  (Shizuku)   │
@@ -62,10 +85,10 @@
 
 | 组件 | 说明 |
 |------|------|
-| `adb.exe` | 官方平台工具，用于与设备通信 |
+| `adb.exe` | 官方平台工具，负责与设备通信 |
 | `usb_driver` | 通用 ADB 驱动，免手动安装 |
 | `start.sh` | Shizuku 官方启动脚本 |
-| `launcher` | 自动化调度核心 |
+| `launcher` | 自动化调度核心，带图形界面 |
 
 ---
 
@@ -80,7 +103,7 @@
 ## ❓ 常见问题
 
 **Q：提示「未检测到设备」怎么办？**
-A：请检查 USB 调试是否开启，并尝试更换数据线或 USB 接口。首次连接需在手机上确认授权。
+A：请检查 USB 调试是否开启，尝试更换数据线或 USB 接口。首次连接需在手机上确认授权。
 
 **Q：需要 root 吗？**
 A：不需要。本工具基于 ADB 调试授权，Shizuku 本身也无需 root。
@@ -95,9 +118,7 @@ A：不会。工具完全离线运行，不联网、不上传任何信息。
 
 ## 📦 下载
 
-前往 [Releases](../../releases) 页面下载最新版 `ShizukuOneClick.exe`。
-
----
+前往 [Releases](../../releases) 页面下载最新版 `ADB工具箱.exe`。
 
 ## 🤝 贡献
 
